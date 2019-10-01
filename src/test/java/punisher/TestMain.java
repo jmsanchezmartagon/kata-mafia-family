@@ -27,7 +27,7 @@ public class TestMain {
 		Main app = new Main();
 		URL fileTest = findFile("gangs.csv");
 		assertNotNull("File not found!", fileTest);
-		Map<String, Set<Criminal>> map = app.splitAndSort(fileTest.getPath());
+		Map<String, Set<Criminal>> map = app.collectFamilies(fileTest.getPath());
 
 		assertNotNull("Empty", map);
 		assertTrue("Empty", map.size() > 0);

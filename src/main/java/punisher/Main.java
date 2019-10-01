@@ -12,13 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-	private static Logger logger = Logger.getLogger(Main.class.getName());
-	
+	private static Logger LOGGER = Logger.getLogger(Main.class.getName());
+
 	private enum FieldName {
 		NAME, LAST_NAME, NICK, FAMILY, LEVEL
 	}
-	
+
 	private ICriminalPrinter printer = null;
+
 	public Main() {
 //		printer = new CriminalPrinterConsoleJson();
 		printer = new CriminalPrinterFileJson();
@@ -26,50 +27,48 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main app = new Main();
-		
-		Map<String, Set<Criminal>> map =app.splitAndSort(args[0]);
-		
+
+		Map<String, Set<Criminal>> map = app.collectFamilies(args[0]);
 		if (map != null) {
-			map.entrySet().parallelStream().forEach(item -> app.printer.print(item.getKey(),item.getValue().iterator()));
+			map.entrySet().parallelStream()
+			        .forEach(item -> app.printer.print(item.getKey(), item.getValue().iterator()));
 		}
 	}
 
-
-	public Map<String, Set<Criminal>> splitAndSort(String filename) {
+	public Map<String, Set<Criminal>> collectFamilies(String filename) {
 		Map<String, Set<Criminal>> map = null;
-		BufferedReader b = null;
+		BufferedReader buffeReader = null;
 		try {
 			String line = null;
 			Criminal criminal = null;
 			Set<Criminal> tree = null;
 			String[] fields = null;
 
-			File f = new File(filename);
-			b = new BufferedReader(new FileReader(f));
+			File sourceFile = new File(filename);
+			buffeReader = new BufferedReader(new FileReader(sourceFile));
 
 			map = new HashMap<>();
-			while ((line = b.readLine()) != null) {
+			while ((line = buffeReader.readLine()) != null) {
 				fields = line.split(";");
-				criminal = new Criminal(fields[FieldName.NAME.ordinal()], fields[FieldName.LAST_NAME.ordinal()],
-				        fields[FieldName.NICK.ordinal()], fields[FieldName.FAMILY.ordinal()],
-				        fields[FieldName.LEVEL.ordinal()]);
+				criminal = Criminal.builder().name(fields[FieldName.NAME.ordinal()])
+				        .lastName(fields[FieldName.LAST_NAME.ordinal()]).nick(fields[FieldName.NICK.ordinal()])
+				        .family(fields[FieldName.FAMILY.ordinal()]).level(fields[FieldName.LEVEL.ordinal()]).build();
 				tree = map.computeIfAbsent(criminal.getFamily(), k -> new TreeSet<Criminal>(CriminalSort.LEVEL));
 				tree.add(criminal);
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		} finally {
-			if (b != null) {
+			if (buffeReader != null) {
 				try {
-					b.close();
+					buffeReader.close();
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, e.getMessage(),e);
+					LOGGER.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}
 		return map;
-		
+
 	}
 
-	
 }

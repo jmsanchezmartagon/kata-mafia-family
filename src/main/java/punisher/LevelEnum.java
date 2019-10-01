@@ -1,6 +1,8 @@
 package punisher;
 
-public enum LevelEnum {
+import java.util.Optional;
+
+enum LevelEnum {
 
 	LEADER(1, "Leader"), COUNSELOR(2, "Counselor"), SERGEANT(3, "Sergeant"), BADASS(4, "Bad Ass");
 
@@ -19,11 +21,11 @@ public enum LevelEnum {
 		return name;
 	}
 	
-	public static LevelEnum instanceOf(String levelName) {
-		for (LevelEnum l :LevelEnum.values()) {
-			if (l.name.equals(levelName))
-				return l;
+	public static Optional<LevelEnum> instanceOf(String levelName) {
+		for (LevelEnum level :LevelEnum.values()) {
+			if (level.name.equals(levelName))
+				return Optional.of(level);
 		}
-		return null;
+		return Optional.empty();
 	}
 }

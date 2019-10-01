@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CriminalPrinterFileJson implements ICriminalPrinter {
+class CriminalPrinterFileJson implements ICriminalPrinter {
 	private static Logger logger = Logger.getLogger(CriminalPrinterFileJson.class.getName());
 	
 	@Override

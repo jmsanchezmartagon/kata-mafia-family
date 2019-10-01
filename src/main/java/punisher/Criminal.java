@@ -1,30 +1,43 @@
 package punisher;
 
-public class Criminal {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+class Criminal {
+
+	@Getter
 	private String name;
+	@Getter
 	private String lastName;
+	@Getter
 	private String nick;
+	@Getter
 	private String family;
+	@Getter
 	private String level;
 
-	public Criminal() {
-	}
-
-	public Criminal(String name, String lastName, String nick, String family, String level) {
-		super();
-		this.name = name;
-		this.lastName = lastName;
-		this.nick = nick;
-		this.family = family;
-		this.level = level;
-	}
+//	public Criminal() {
+//	}
+//
+//	public Criminal(String name, String lastName, String nick, String family, String level) {
+//		super();
+//		this.name = name;
+//		this.lastName = lastName;
+//		this.nick = nick;
+//		this.family = family;
+//		this.level = level;
+//	}
 
 	@Override
 	public int hashCode() {
 		return super.hashCode();
 	}
-
+ 
 	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
@@ -40,46 +53,6 @@ public class Criminal {
 		        && (nick == c.nick || nick != null && c.nick != null && nick.equals(c.nick))
 		        && (family == c.family || family != null && c.family != null && family.equals(c.family))
 		        && (level == c.level || level != null && c.level != null && level.equals(c.level));
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFamily() {
-		return family;
-	}
-
-	public void setFamily(String family) {
-		this.family = family;
-	}
-
-	public String getLevel() {
-		return level;
-	}
-
-	public void setLevel(String level) {
-		this.level = level;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
 	}
 
 }

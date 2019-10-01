@@ -17,11 +17,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestPrintFileJson {
 
-
 	@Test
 	public void testPrintConsoleJson() {
-		Criminal c = new Criminal("Alphonse Grabriel", "Capone", "Scarface", "PrintConsoleJson",
-		        LevelEnum.LEADER.getLabel());
+		Criminal c = Criminal.builder().name("Alphonse Grabriel").lastName("Capone").nick("Scarface")
+		        .family("PrintConsoleJson").level(LevelEnum.LEADER.getLabel()).build();
 
 		ICriminalPrinter printer = new CriminalPrinterFileJson();
 		printer.print(c.getFamily(), Arrays.asList(c).iterator());
@@ -31,7 +30,8 @@ public class TestPrintFileJson {
 		ObjectMapper omap = new ObjectMapper();
 		Set<Criminal> family = null;
 		try {
-			family = omap.readValue(f, new TypeReference<Set<Criminal>> () {});
+			family = omap.readValue(f, new TypeReference<Set<Criminal>>() {
+			});
 		} catch (IOException e) {
 			fail(e.getMessage());
 		}
@@ -39,7 +39,7 @@ public class TestPrintFileJson {
 		Optional<Criminal> rc = family.stream().findFirst();
 		assertTrue(rc.isPresent());
 		assertTrue(rc.get().equals(c));
-		
+
 		f.delete();
 	}
 }

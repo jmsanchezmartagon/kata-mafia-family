@@ -4,7 +4,7 @@ import java.util.Optional;
 
 enum LevelEnum {
 
-	LEADER(1, "Leader"), COUNSELOR(2, "Counselor"), SERGEANT(3, "Sergeant"), BADASS(4, "Bad Ass");
+	LEADER(1, "Leader"), COUNSELOR(2, "Counselor"), SERGEANT(4, "Sergeant"), BADASS(10, "Bad Ass");
 
 	private int level;
 	private String name;

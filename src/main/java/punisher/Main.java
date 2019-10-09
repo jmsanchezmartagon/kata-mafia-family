@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,27 +19,27 @@ public class Main {
 	private ICriminalPrinter printer = null;
 
 	public Main() {
-//		printer = new CriminalPrinterConsoleJson();
-		printer = new CriminalPrinterFileJson();
+		printer = new CriminalPrinterConsoleJson();
+//		printer = new CriminalPrinterFileJson();
 	}
 
 	public static void main(String[] args) {
 		Main app = new Main();
 
-		Map<String, Set<Criminal>> map = app.collectFamilies(args[0]);
+		Map<String, Family> map = app.collectFamilies(args[0]);
 		if (map != null) {
 			map.entrySet().parallelStream()
 			        .forEach(item -> app.printer.print(item.getKey(), item.getValue().iterator()));
 		}
 	}
 
-	public Map<String, Set<Criminal>> collectFamilies(String filename) {
-		Map<String, Set<Criminal>> map = null;
+	public Map<String, Family> collectFamilies(String filename) {
+		Map<String, Family> map = null;
 		BufferedReader buffeReader = null;
 		try {
 			String line = null;
 			Criminal criminal = null;
-			Set<Criminal> tree = null;
+			Family family = null;
 			String[] fields = null;
 
 			File sourceFile = new File(filename);
@@ -53,8 +51,10 @@ public class Main {
 				criminal = Criminal.builder().name(fields[FieldName.NAME.ordinal()])
 				        .lastName(fields[FieldName.LAST_NAME.ordinal()]).nick(fields[FieldName.NICK.ordinal()])
 				        .family(fields[FieldName.FAMILY.ordinal()]).level(fields[FieldName.LEVEL.ordinal()]).build();
-				tree = map.computeIfAbsent(criminal.getFamily(), k -> new TreeSet<Criminal>(CriminalSort.LEVEL));
-				tree.add(criminal);
+
+				
+				family = map.computeIfAbsent(criminal.getFamily(), k -> new Family());
+				family.add(criminal);
 			}
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);

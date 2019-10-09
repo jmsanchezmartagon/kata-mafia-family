@@ -15,9 +15,10 @@ class CriminalPrinterConsoleJson implements ICriminalPrinter {
 		ObjectMapper omap = new ObjectMapper();
 		try {
 			System.out.println(family);
-			System.out.println(omap.writeValueAsString(omap.writeValueAsString(collect)));
+			System.out.println(omap.writeValueAsString(collect));
 		} catch (IOException  e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }
+

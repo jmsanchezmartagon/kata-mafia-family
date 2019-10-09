@@ -53,7 +53,7 @@ public class Main {
 				        .family(fields[FieldName.FAMILY.ordinal()]).level(fields[FieldName.LEVEL.ordinal()]).build();
 
 				
-				family = map.computeIfAbsent(criminal.getFamily(), k -> new Family());
+				family = map.computeIfAbsent(criminal.getFamily(), k -> new FamilyArrayImpl());
 				family.add(criminal);
 			}
 		} catch (IOException e) {

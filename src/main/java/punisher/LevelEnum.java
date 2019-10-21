@@ -21,7 +21,7 @@ enum LevelEnum {
 		return name;
 	}
 	
-	public static Optional<LevelEnum> instanceOf(String levelName) {
+	public static Optional<LevelEnum> of(String levelName) {
 		for (LevelEnum level :LevelEnum.values()) {
 			if (level.name.equals(levelName))
 				return Optional.of(level);

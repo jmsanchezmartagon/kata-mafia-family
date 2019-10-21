@@ -2,6 +2,7 @@ package punisher;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -9,24 +10,37 @@ public class FamilyTreeImpl implements Family {
 
 	private Set<Criminal> family = null;
 	private Criminal lastSargeant = null;
+	private int counselorWigth = LevelEnum.COUNSELOR.getLevel();
+	private int sergeantWeigth = LevelEnum.SERGEANT.getLevel();
 
 	public FamilyTreeImpl() {
-		family = new TreeSet<Criminal>();
+		family = new TreeSet<Criminal>(CriminalSort.LEVEL);
 	}
 
 	public void add(Criminal criminal) {
 
-		if (LevelEnum.BADASS.getLabel().equalsIgnoreCase(criminal.getLevel())) {
-			if (lastSargeant.getBadass() == null) {
-				lastSargeant.setBadass(new ArrayList<>());
-			}
-			lastSargeant.getBadass().add(criminal);
-		} else {
-			family.add(criminal);
-			if (LevelEnum.SERGEANT.getLabel().equalsIgnoreCase(criminal.getLevel())) {
+		Optional<LevelEnum> criminalLevel = LevelEnum.of(criminal.getLevel());
+		if (criminalLevel.isPresent())
+			switch (criminalLevel.get()) {
+			case COUNSELOR:
+				criminal.setWeight(counselorWigth--);
+				family.add(criminal);
+				break;
+			case SERGEANT:
 				lastSargeant = criminal;
+				criminal.setWeight(sergeantWeigth--);
+				family.add(criminal);
+				break;
+			case BADASS:
+				if (lastSargeant.getBadass() == null) {
+					lastSargeant.setBadass(new ArrayList<>());
+				}
+				lastSargeant.getBadass().add(criminal);
+				break;
+			default:
+				criminal.setWeight(criminalLevel.get().getLevel());
+				family.add(criminal);
 			}
-		}
 	}
 
 	public Iterator<Criminal> iterator() {

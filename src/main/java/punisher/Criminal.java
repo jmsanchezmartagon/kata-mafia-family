@@ -28,5 +28,9 @@ class Criminal {
 	@Getter
 	@Setter
 	@JsonIgnore
+	private Integer weight;
+	@Getter
+	@Setter
+	@JsonIgnore
 	private List<Criminal> badass;
 }

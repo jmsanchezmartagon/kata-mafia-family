@@ -20,7 +20,6 @@ public class Main {
 
 	public Main() {
 		printer = new CriminalPrinterConsoleJson();
-//		printer = new CriminalPrinterFileJson();
 	}
 
 	public static void main(String[] args) {
@@ -53,7 +52,7 @@ public class Main {
 				        .family(fields[FieldName.FAMILY.ordinal()]).level(fields[FieldName.LEVEL.ordinal()]).build();
 
 				
-				family = map.computeIfAbsent(criminal.getFamily(), k -> new FamilyArrayImpl());
+				family = map.computeIfAbsent(criminal.getFamily(), k -> new FamilyTreeImpl());
 				family.add(criminal);
 			}
 		} catch (IOException e) {

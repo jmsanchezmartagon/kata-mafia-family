@@ -23,7 +23,7 @@ enum LevelEnum {
 	
 	public static Optional<LevelEnum> of(String levelName) {
 		for (LevelEnum level :LevelEnum.values()) {
-			if (level.name.equals(levelName))
+			if (level.name.equalsIgnoreCase(levelName))
 				return Optional.of(level);
 		}
 		return Optional.empty();

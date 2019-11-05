@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class TestMain {
 		Main app = new Main();
 		URL fileTest = findFile("gangs.csv");
 		assertNotNull("File not found!", fileTest);
-		Map<String,Family> map = app.collectFamilies(fileTest.getPath());
+		Map<String, Family> map = app.collectFamilies(fileTest.getPath());
 
 		assertNotNull("Empty", map);
 		assertTrue("Empty", map.size() > 0);
@@ -34,11 +35,14 @@ public class TestMain {
 		//
 		map.values().stream().forEach(family -> {
 			Criminal parent = null;
-			family.iterator().forEachRemaining(criminal -> {
+			Criminal criminal = null;
+			Iterator<Criminal> list = family.iterator();
+			while (list.hasNext()) {
+				criminal = list.next();
 				if (parent != null)
 					assertTrue("No Order", CriminalSort.LEVEL.compare(parent, criminal) < 0);
 				parent = criminal;
-			});
+			}
 		});
 	}
 

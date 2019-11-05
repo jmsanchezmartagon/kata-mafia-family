@@ -19,6 +19,7 @@ public class FamilyTreeImpl implements Family {
 
 	public void add(Criminal criminal) {
 
+		System.out.println(criminal.getLevel());
 		Optional<LevelEnum> criminalLevel = LevelEnum.of(criminal.getLevel());
 		if (criminalLevel.isPresent())
 			switch (criminalLevel.get()) {
